@@ -1,3 +1,8 @@
+-- init.lua
+local home = os.getenv('userprofile')
+vim.env.PYENV_VERSION = vim.fn.system('pyenv version'):match('(%S+)%s+%(.-%)')
+vim.g.python3_host_prog = home .. "/.pyenv/pyenv-win/shims/python3"
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -129,16 +134,14 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
-
-
 if vim.g.vscode then
   -- VSCode extension
-  require('lazy').setup({
+  require('lazy').setup {
     require 'plugins.vscode-multi-cursor',
-  })
+  }
 else
   -- ordinary Neovim
-  require('lazy').setup({
+  require('lazy').setup {
     require 'plugins.conform',
     require 'plugins.gitsigns',
     require 'plugins.lazydev',
@@ -146,12 +149,14 @@ else
     require 'plugins.luvit-meta',
     require 'plugins.mini',
     require 'plugins.neo-tree',
-    require 'plugins.nvim-cmp',
     require 'plugins.telescope',
     require 'plugins.todo-comments',
     require 'plugins.tokyonight',
     require 'plugins.treesitter',
     require 'plugins.vim-sleuth',
-    require 'plugins.which-key'
-  })
+    require 'plugins.which-key',
+    require 'plugins.multicursor',
+    require 'plugins.blink',
+  }
 end
+
