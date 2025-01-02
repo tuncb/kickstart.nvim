@@ -157,6 +157,7 @@ else
     require 'plugins.which-key',
     require 'plugins.multicursor',
     require 'plugins.blink',
+    require 'plugins.snacks',
   }
 end
 
