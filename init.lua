@@ -137,7 +137,7 @@ vim.opt.rtp:prepend(lazypath)
 if vim.g.vscode then
   -- VSCode extension
   require('lazy').setup {
-    require 'plugins.vscode-multi-cursor',
+    require 'plugins.multicursor',
   }
 else
   -- ordinary Neovim
