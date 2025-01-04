@@ -220,5 +220,6 @@ return {
         end,
       },
     }
+    require('lspconfig')['delphi_ls'].setup({})
   end,
 }
