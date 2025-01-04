@@ -138,6 +138,7 @@ if vim.g.vscode then
   -- VSCode extension
   require('lazy').setup {
     require 'plugins.multicursor',
+    require 'plugins.mini-vscode',
   }
 else
   -- ordinary Neovim
