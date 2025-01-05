@@ -9,7 +9,7 @@ return {
 
     -- Useful status updates for LSP.
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-    { 'j-hui/fidget.nvim',       opts = {} },
+    { 'j-hui/fidget.nvim', opts = {} },
 
     -- Allows extra capabilities provided by nvim-cmp
     dependencies = { 'saghen/blink.cmp' },
@@ -161,10 +161,11 @@ return {
     --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+
     local servers = {
       -- clangd = {},
       -- gopls = {},
-      -- pyright = {},
+      pyright = {},
       rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
@@ -208,6 +209,11 @@ return {
 
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+    local setup_server = function(server_name, server)
+      server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+      require('lspconfig')[server_name].setup(server)
+    end
+
     require('mason-lspconfig').setup {
       handlers = {
         function(server_name)
@@ -215,11 +221,17 @@ return {
           -- This handles overriding only values explicitly passed
           -- by the server configuration above. Useful when disabling
           -- certain features of an LSP (for example, turning off formatting for ts_ls)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
+          setup_server(server_name, server)
         end,
       },
     }
-    require('lspconfig')['delphi_ls'].setup({})
+
+    local non_mason_servers = {
+      delphi_ls = {},
+    }
+
+    for server_name, server in pairs(non_mason_servers) do
+      setup_server(server_name, server)
+    end
   end,
 }
