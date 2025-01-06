@@ -227,7 +227,20 @@ return {
     }
 
     local non_mason_servers = {
-      delphi_ls = {},
+      delphi_ls = {
+        on_attach = function(client)
+          local lsp_config = vim.fs.find(function(name)
+            return name:match(".*%.delphilsp.json$")
+          end, { type = "file", path = client.config.root_dir, upward = false })[1]
+
+          if lsp_config then
+            client.config.settings = { settingsFile = lsp_config }
+            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+          else
+            vim.notify_once("delphi_ls: '*.delphilsp.json' config file not found")
+          end
+        end,
+      },
     }
 
     for server_name, server in pairs(non_mason_servers) do
