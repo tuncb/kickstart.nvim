@@ -127,6 +127,11 @@ if not vim.g.vscode then
   vim.opt.spell = true
 end
 
+vim.api.nvim_create_autocmd({ "FileChangedShellPost" }, {
+  command = 'echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None',
+  pattern = { "*" },
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
