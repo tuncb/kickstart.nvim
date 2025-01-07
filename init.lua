@@ -159,6 +159,6 @@ else
     require 'plugins.multicursor',
     require 'plugins.blink',
     require 'plugins.snacks',
+    require 'plugins.key-analyzer',
   }
 end
-
