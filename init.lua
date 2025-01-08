@@ -170,5 +170,6 @@ else
     require 'plugins.blink',
     require 'plugins.snacks',
     require 'plugins.key-analyzer',
+    require 'plugins.venv-selector',
   }
 end
