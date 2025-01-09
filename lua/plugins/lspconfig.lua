@@ -245,7 +245,8 @@ return {
         -- Server-specific settings. See `:help lspconfig-setup`
 
         -- omit the following line if `zls` is in your PATH
-        cmd = { 'C:/Users/tuncb/scoop/apps/zig/0.13.0/zls.exe' },
+        local home = os.getenv('userprofile')
+        cmd = { home .. '/scoop/apps/zig/0.13.0/zls.exe' },
         -- There are two ways to set config options:
         --   - edit your `zls.json` that applies to any editor that uses ZLS
         --   - set in-editor config options with the `settings` field below.
