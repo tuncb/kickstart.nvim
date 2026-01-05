@@ -1,3 +1,16 @@
+
+local ruff_settings = {
+  cmd = { 'ruff', 'server' },
+  filetypes = { 'python' },
+  root_dir = function(fname)
+    return util.root_pattern('pyproject.toml', 'ruff.toml', '.ruff.toml')(fname)
+      or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+  end,
+  single_file_support = true,
+  settings = {},
+}
+
+
 return {
   -- Main LSP Configuration
   'neovim/nvim-lspconfig',
@@ -165,6 +178,7 @@ return {
     local servers = {
       -- clangd = {},
       -- gopls = {},
+
       pyright = {},
       rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -227,6 +241,7 @@ return {
     }
 
     local non_mason_servers = {
+      ruff = ruff_settings,
       delphi_ls = {
         on_attach = function(client)
           local lsp_config = vim.fs.find(function(name)
@@ -245,8 +260,8 @@ return {
         -- Server-specific settings. See `:help lspconfig-setup`
 
         -- omit the following line if `zls` is in your PATH
-        local home = os.getenv('userprofile')
-        cmd = { home .. '/scoop/apps/zig/0.13.0/zls.exe' },
+        cmd = { os.getenv('userprofile') .. '/scoop/apps/zig/0.13.0/zls.exe' },
+
         -- There are two ways to set config options:
         --   - edit your `zls.json` that applies to any editor that uses ZLS
         --   - set in-editor config options with the `settings` field below.
@@ -256,11 +271,10 @@ return {
         settings = {
           zls = {
             -- Whether to enable build-on-save diagnostics
-            --
+          }
             -- Further information about build-on save:
             -- https://zigtools.org/zls/guides/build-on-save/
             -- enable_build_on_save = true,
-          }
         }
       }
     }
